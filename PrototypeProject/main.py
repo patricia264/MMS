@@ -9,7 +9,7 @@ from PIL import Image
 import glob
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r".\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame0")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -20,7 +20,7 @@ def relative_to_assets(path: str) -> Path:
 window = Tk()
 
 # SuperCooleFont importieren
-font_path = r".\assets\PressStart2P-Regular.ttf"
+font_path = r"./assets/PressStart2P-Regular.ttf"
 custom_font = Font(
     family="PressStart2P",
     size=40 * -1
@@ -35,7 +35,7 @@ window.configure(bg="#FFFFFF")
 # Versuch, hier alle Funktionalitäten einzubauen (lmao was e catastrophe die gliederig)
 # ImageList erstellen mit Strings unserer Memes-PFADE, müssen pngs sein
 image_list = []
-for filename in glob.glob(r".\assets\imagesmemes\\*"):
+for filename in glob.glob(r"./assets/imagesmemes//*"):
     image_list.append(filename)
 
 # erstellt Dictionary String MemesPfade: Bewertungs-Ints, die jetzt auf 0 gesetzt sind.
@@ -90,8 +90,9 @@ canvas = Canvas(
 )
 
 canvas.place(x=0, y=0)
-image_image_1 = PhotoImage(
-    file=relative_to_assets("image_1.png"))
+image_image_1 = PhotoImage(file=relative_to_assets("image_1.png"))
+
+
 image_1 = canvas.create_image(
     512.0,
     384.0,
