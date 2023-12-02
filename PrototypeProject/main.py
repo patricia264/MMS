@@ -7,6 +7,7 @@ from tkinter import Tk,ttk, Canvas, Entry, Text, Button, PhotoImage
 from tkinter.font import Font
 from PIL import Image
 import glob
+from deepface import DeepFace
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame0")
