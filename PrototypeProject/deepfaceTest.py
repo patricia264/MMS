@@ -8,7 +8,7 @@ def takePic(MemePosition, cap):
     # Warte auf die Initialisierung der Kamera
     while not cap.isOpened():
         pass
-    # Liest ein Bild von der Webcam
+    # Lese ein Bild von der Webcam
     ret, frame = cap.read()
     # Überprüfe, ob das Lesen erfolgreich war
     if ret:
