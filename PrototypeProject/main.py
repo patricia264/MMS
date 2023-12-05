@@ -5,20 +5,17 @@ from pathlib import Path
 # Explicit imports to satisfy Flake8
 from tkinter import Tk,ttk, Canvas, Entry, Text, Button, PhotoImage
 from tkinter.font import Font
-from PIL import Image
 import glob
 import deepfaceTest
-from deepface import DeepFace
 import cv2
-import asyncio
-import time
+
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame0")
 
 #Initalisierung webcam
 cap = cv2.VideoCapture(0)
-#Warte auf die Initialisierung der Kamera
+
 
 
 def relative_to_assets(path: str) -> Path:
@@ -42,7 +39,7 @@ window.geometry("1024x768")
 window.configure(bg="#FFFFFF")
 
 # Versuch, hier alle Funktionalitäten einzubauen (lmao was e catastrophe die gliederig)
-# ImageList erstellen mit Strings unserer Memes-PFADE, müssen pngs sein
+# ImageList erstellen mit Strings unserer Memes-PFADE, müssen pngs sein und schon zurechtgeschnitten (400x400px glaub)
 image_list = []
 for filename in glob.glob(r"./assets/imagesmemes//*"):
     image_list.append(filename)
@@ -53,19 +50,17 @@ MemePosition = 0
 buttonText = tkinter.StringVar()
 buttonText.set("Next")
 
-# erstellt Dictionary Int MemePosition (funzt das?) Bewertungs-Ints, die jetzt auf 0 gesetzt sind.
+# erstellt Dictionary Int MemePosition: Bewertungs-Ints, die jetzt auf 0 gesetzt sind.
 # diese Ints können dann durch die Happy Rate der DeepFace Erkennungsschnittstelle überschrieben werden
+#dies geschieht bei Funktion deepfaceTest.takePic()
 
 MemeDictionary = {}
 for count,filename in enumerate(image_list):
     MemeDictionary[count] = 0
 
 
-
-
 # Erhöht MemePosition um eines und stellt sicher, dass beim letzten Meme der Text auf "Results" ändert
 # Setzt Progress Bar wieder auf 0
-
 def button_clicked():
     global MemePosition
     MemePosition += 1
@@ -93,9 +88,6 @@ def set_Image():
         image=memeImage)
 
 
-
-
-
 canvas = Canvas(
     window,
     bg="#FFFFFF",
@@ -118,6 +110,8 @@ image_1 = canvas.create_image(
 
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
+
+#Button GUI Variabeln
 button_1 = Button(
     image=button_image_1,
     textvariable=buttonText,
@@ -127,7 +121,7 @@ button_1 = Button(
     borderwidth=0,
     highlightthickness=0,
     #bei Klick führt zuerst Hauptfunktion aus, dann take pic (Hoffnung das delay klappt, tuts ned)
-    command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition-1, cap, MemeDictionary)],
+    command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition, cap, MemeDictionary)],
     relief="flat"
 )
 button_1.place(
@@ -155,18 +149,16 @@ canvas.create_text(
     font=("Press Start 2P", 40 * -1)
 )
 
-
+# Var erstellt um Progressbarwert dann zu verändern, damit dynamischer Wert
 progressVarInt = tkinter.IntVar()
 
 
 # künstliche Zahl als Platzhalter.
-# sollte aus unserem Dictionary dann geholt werden
-
+# Braucht noch eine Funktion, die nach dem Analysieren die Progressbar verändert
 progressVarInt.set(30)
 
 
 # Prozentanzahl als ProgressBar
-
 progressbar= ttk.Progressbar(
     length=300,
     orient='horizontal',
@@ -177,18 +169,11 @@ progressbar.place(
     y = 655
 )
 
-# Prozentanzahl als Text oder au nöd. git kein direkte weg text mit variable z verbinde
-#canvas.create_text(
- #   190.0,
-#  655.0,
-#    anchor="nw",
- #   text= "63%",
-  #  fill="#000000",
-   # font=("Avenir Next LP Pro", 20 * -1))
 
 
-#Initialisieren
+# erstmaliges Initialisieren von Bild
 set_Image()
+
 #erstes Mal take Pic da sonst mit Next Funktion verbunden
 deepfaceTest.takePic(MemePosition, cap, MemeDictionary)
 
