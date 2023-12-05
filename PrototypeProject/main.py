@@ -88,8 +88,8 @@ def set_Image():
         image=memeImage)
 
     # Verzögerung von 2 sekunden bis Bild aufgenommen wird ACHTUNG BLOCKT ALLES NOCH KEINE GUTE ASYNCHRONE LÖSUNG GEFUNDEN
-    time.sleep(2)
-    deepfaceTest.takePic(MemePosition, cap)
+    #time.sleep(2)
+    #deepfaceTest.takePic(MemePosition, cap)
 
 
 
@@ -124,7 +124,7 @@ button_1 = Button(
     compound=tkinter.CENTER,
     borderwidth=0,
     highlightthickness=0,
-    command=button_clicked,
+    command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition, cap)],
     relief="flat"
 )
 button_1.place(
