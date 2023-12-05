@@ -47,18 +47,20 @@ image_list = []
 for filename in glob.glob(r"./assets/imagesmemes//*"):
     image_list.append(filename)
 
-# erstellt Dictionary String MemesPfade: Bewertungs-Ints, die jetzt auf 0 gesetzt sind.
-# diese Ints können dann durch die Happy Rate der DeepFace Erkennungsschnittstelle überschrieben werden
-
-MemeDictionary = {}
-for filename in image_list:
-    MemeDictionary[filename] = 0
-
 # globale Variabeln
 # StringVar, damit Text Button verändert werden kann
 MemePosition = 0
 buttonText = tkinter.StringVar()
 buttonText.set("Next")
+
+# erstellt Dictionary Int MemePosition (funzt das?) Bewertungs-Ints, die jetzt auf 0 gesetzt sind.
+# diese Ints können dann durch die Happy Rate der DeepFace Erkennungsschnittstelle überschrieben werden
+
+MemeDictionary = {}
+for count,filename in enumerate(image_list):
+    MemeDictionary[count] = 0
+
+
 
 
 # Erhöht MemePosition um eines und stellt sicher, dass beim letzten Meme der Text auf "Results" ändert
@@ -69,9 +71,12 @@ def button_clicked():
     MemePosition += 1
     set_Image()
     progressVarInt.set(0)
+
+    # Ändert Text von Button von Next zu Result
     if MemePosition < len(image_list) - 1:
         return
     buttonText.set("Results")
+    print(MemeDictionary)
 
 
 # Bilderquelle verändert sich mit der MemePosition. Auch erstmalige Initalisierung vom Bild durch diese Methode
@@ -87,9 +92,6 @@ def set_Image():
         384.0,
         image=memeImage)
 
-    # Verzögerung von 2 sekunden bis Bild aufgenommen wird ACHTUNG BLOCKT ALLES NOCH KEINE GUTE ASYNCHRONE LÖSUNG GEFUNDEN
-    #time.sleep(2)
-    #deepfaceTest.takePic(MemePosition, cap)
 
 
 
@@ -124,7 +126,8 @@ button_1 = Button(
     compound=tkinter.CENTER,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition, cap)],
+    #bei Klick führt zuerst Hauptfunktion aus, dann take pic (Hoffnung das delay klappt, tuts ned)
+    command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition-1, cap, MemeDictionary)],
     relief="flat"
 )
 button_1.place(

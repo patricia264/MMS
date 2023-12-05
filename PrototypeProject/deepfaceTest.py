@@ -3,7 +3,10 @@ import cv2
 import time
 
 
-def takePic(MemePosition, cap):
+
+def takePic(MemePosition, cap, MemeDictionary):
+
+    #Verzögerung von 2 sekunden bis Bild aufgenommen wird ACHTUNG BLOCKT ALLES NOCH KEINE GUTE ASYNCHRONE LÖSUNG GEFUNDEN
     time.sleep(2)
     # Warte auf die Initialisierung der Kamera
     while not cap.isOpened():
@@ -15,9 +18,16 @@ def takePic(MemePosition, cap):
         # Speichere das Bild
         cv2.imwrite(f"WebCamShots/{MemePosition}.jpg", frame)
 
+    # Analyziere Bild
+    analyzRes = DeepFace.analyze(f"WebCamShots/{MemePosition}.jpg",
+                            actions=['age', 'gender', 'race', 'emotion'])
 
-# Access camera in real time and see emotions
-#DeepFace.stream("database")
+    # save absolute values of a certain emotion, why 0 idk
+    happyPercent = (analyzRes[0]['emotion']['happy'])
+    MemeDictionary[MemePosition] = happyPercent
+
+
+
 
 # Path to the image you want to analyze
 img_path = "assets/Deepface workspace/database/happy.jpg"
@@ -31,7 +41,7 @@ img_path = "assets/Deepface workspace/database/happy.jpg"
 
 #analyse a picture
 objs = DeepFace.analyze(img_path,
-        actions = ['age', 'gender', 'race', 'emotion']
-)
+        actions = ['age', 'gender', 'race', 'emotion'])
+
 #print absolute values of a certain emotion, why 0 idk
 print(objs[0]['emotion']['happy'])
