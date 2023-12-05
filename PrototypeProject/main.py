@@ -7,10 +7,18 @@ from tkinter import Tk,ttk, Canvas, Entry, Text, Button, PhotoImage
 from tkinter.font import Font
 from PIL import Image
 import glob
+import deepfaceTest
 from deepface import DeepFace
+import cv2
+import asyncio
+import time
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame0")
+
+#Initalisierung webcam
+cap = cv2.VideoCapture(0)
+#Warte auf die Initialisierung der Kamera
 
 
 def relative_to_assets(path: str) -> Path:
@@ -78,6 +86,12 @@ def set_Image():
         512.0,
         384.0,
         image=memeImage)
+
+    # Verzögerung von 2 sekunden bis Bild aufgenommen wird ACHTUNG BLOCKT ALLES NOCH KEINE GUTE ASYNCHRONE LÖSUNG GEFUNDEN
+    time.sleep(2)
+    deepfaceTest.takePic(MemePosition, cap)
+
+
 
 
 canvas = Canvas(
@@ -174,3 +188,8 @@ set_Image()
 
 window.resizable(False, False)
 window.mainloop()
+
+# Gib die Kameraressourcen frei
+cap.release()
+# Schließe alle OpenCV-Fenster
+cv2.destroyAllWindows()
