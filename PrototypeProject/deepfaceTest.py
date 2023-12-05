@@ -30,7 +30,7 @@ def takePic(MemePosition, cap, MemeDictionary):
 
 
 # Path to the image you want to analyze
-img_path = "assets/Deepface workspace/database/happy.jpg"
+# img_path = "assets/Deepface workspace/database/happy.jpg"
 
 # Analyze the image for facial attributes including emotions
 #result = DeepFace.analyze(img_path, actions=['emotion'])
@@ -40,8 +40,8 @@ img_path = "assets/Deepface workspace/database/happy.jpg"
 ##print("Happiness score:", happiness_score)
 
 #analyse a picture
-objs = DeepFace.analyze(img_path,
-        actions = ['age', 'gender', 'race', 'emotion'])
+# objs = DeepFace.analyze(img_path,
+       # actions = ['age', 'gender', 'race', 'emotion'])
 
 #print absolute values of a certain emotion, why 0 idk
-print(objs[0]['emotion']['happy'])
+# print(objs[0]['emotion']['happy'])

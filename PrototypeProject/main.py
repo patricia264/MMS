@@ -187,7 +187,10 @@ progressbar.place(
    # font=("Avenir Next LP Pro", 20 * -1))
 
 
+#Initialisieren
 set_Image()
+#erstes Mal take Pic da sonst mit Next Funktion verbunden
+deepfaceTest.takePic(MemePosition, cap, MemeDictionary)
 
 window.resizable(False, False)
 window.mainloop()
