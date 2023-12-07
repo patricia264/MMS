@@ -19,9 +19,11 @@ def takePic(MemePosition, cap, MemeDictionary):
 
     # Analyziere Bild
     analyzRes = DeepFace.analyze(f"WebCamShots/{MemePosition}.jpg",
-                            actions=['age', 'gender', 'race', 'emotion'])
+                            actions=['emotion'])
 
     # save absolute values of a certain emotion, why 0 idk
     happyPercent = (analyzRes[0]['emotion']['happy'])
     MemeDictionary[MemePosition] = happyPercent
+
+
 

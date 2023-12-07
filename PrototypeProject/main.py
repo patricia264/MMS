@@ -1,6 +1,7 @@
 import tkinter
 from pathlib import Path
 import sys
+import tkinter as tk
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
@@ -82,8 +83,6 @@ def button_clicked():
     elif button_text == "Results" :
         displayResultsPage()
         buttonText.set("finish")
-        #TODO: go to results page
-        #watch out for data flow, perhaps here is an error
 
     #terminates program
     elif button_text == "finish":
@@ -91,33 +90,33 @@ def button_clicked():
 
 #Results page, shows the best meme and what happiness value it made you.
 #add finish button to end the game
-#TODO: put the results page here
+
 def displayResultsPage():
-    # Hide elements in the current layout
-    #buttonText.pack_forget()
+
+    #call these functions to make a ''semi-blank'' canvas whitout completely building a new one and
+    #retaining button logic
+    remove_Image()
+    canvas.delete(white_title_id)
+    canvas.delete(black_title_id)
 
     # Top text label
-    top_text = Label(window, text="Your top meme was: ", font=("Arial", 20))
-    top_text.pack()
+    top_text = Label(window, text="Your top meme was:", font=("Arial", 20))
+    top_text.pack(pady=50)  # Add padding to the top
 
     # Display an image (change 'path_to_your_image.png' to the actual image path)
     img = PhotoImage(file=image_list[1])
     image_label = Label(window, image=img)
     image_label.image = img  # Keep a reference to the image to prevent garbage collection
-    image_label.pack()
+    image_label.pack(pady=50)  # Add padding below the image
 
     # Smaller text under the image
-    bottom_text = Label(window, text="It raised your happiness levels to: " + "drü" + " %", font=("Arial", 12))
-    bottom_text.pack()
+    bottom_text = Label(window, text="It raised your happiness levels to: " + str(MemeDictionary[0]) + " %", font=("Arial", 12))
+    bottom_text.pack(pady=20)  # Add padding above the text
 
-    # TODO: Button at the bottom right corner, does not yet work
-    ##close_button = Button(window, text="Close", command=hide_results)
-    #close_button.pack(anchor='se')  # 'se' anchors the button to the bottom right corner
-
-
-
-
-
+    # Center align widgets vertically and horizontally
+    top_text.pack(anchor='center')
+    image_label.pack(anchor='center')
+    bottom_text.pack(anchor='center')
 
 
 # Bilderquelle verändert sich mit der MemePosition. Auch erstmalige Initalisierung vom Bild durch diese Methode
@@ -132,6 +131,16 @@ def set_Image():
         512.0,
         384.0,
         image=memeImage)
+
+#helper function to remove the image as to make space for results
+def remove_Image():
+    global canvas
+    global memeImage
+
+    # Check if 'image_2' has been set previously
+    if 'memeImage' in globals():
+        canvas.delete(memeImage)  # Delete the image object from the canvas
+        del memeImage  # Remove the reference to the image object
 
 
 canvas = Canvas(
@@ -176,8 +185,10 @@ button_1.place(
     width=206.0,
     height=59.0
 )
+
+#added title_ids, which makes the deletion process much easier :)
 # white title
-canvas.create_text(
+white_title_id = canvas.create_text(
     343.0,
     81.0,
     anchor="nw",
@@ -186,7 +197,7 @@ canvas.create_text(
     font=("Press Start 2P", 40 * -1)
 )
 # black title
-canvas.create_text(
+black_title_id = canvas.create_text(
     350.0,
     75.0,
     anchor="nw",
@@ -194,6 +205,7 @@ canvas.create_text(
     fill="#000000",
     font=("Press Start 2P", 40 * -1)
 )
+
 
 # Var erstellt um Progressbarwert dann zu verändern, damit dynamischer Wert
 progressVarInt = tkinter.IntVar()
