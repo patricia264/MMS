@@ -3,7 +3,6 @@ import cv2
 import time
 
 
-
 def takePic(MemePosition, cap, MemeDictionary):
 
     #Verzögerung von 2 sekunden bis Bild aufgenommen wird ACHTUNG BLOCKT ALLES? NOCH KEINE GUTE ASYNCHRONE LÖSUNG GEFUNDEN

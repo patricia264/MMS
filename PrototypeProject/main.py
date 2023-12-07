@@ -1,14 +1,14 @@
 import tkinter
 from pathlib import Path
+import sys
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk,ttk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk,ttk, Canvas, Label, Entry, Text, Button, PhotoImage
 from tkinter.font import Font
 import glob
 import deepfaceTest
 import cv2
-
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame0")
@@ -61,17 +61,63 @@ for count,filename in enumerate(image_list):
 
 # Erhöht MemePosition um eines und stellt sicher, dass beim letzten Meme der Text auf "Results" ändert
 # Setzt Progress Bar wieder auf 0
+#Yanis: addded if condition depending on button value, now button has 2 functions
+#sorry for confusing naming, buttonText is the Button, while button_text is the string which is
+#saved within the button and displayed
 def button_clicked():
-    global MemePosition
-    MemePosition += 1
-    set_Image()
-    progressVarInt.set(0)
 
-    # Ändert Text von Button von Next zu Result
-    if MemePosition < len(image_list) - 1:
-        return
-    buttonText.set("Results")
-    print(MemeDictionary)
+    button_text = buttonText.get()
+    if button_text == "Next":
+        global MemePosition
+        MemePosition += 1
+        set_Image()
+        progressVarInt.set(0)
+        # Ändert Text von Button von Next zu Result
+        if MemePosition < len(image_list) - 1:
+            return
+        buttonText.set("Results")
+        print(MemeDictionary)
+
+    #goes to the results page
+    elif button_text == "Results" :
+        displayResultsPage()
+        buttonText.set("finish")
+        #TODO: go to results page
+        #watch out for data flow, perhaps here is an error
+
+    #terminates program
+    elif button_text == "finish":
+        sys.exit(0)
+
+#Results page, shows the best meme and what happiness value it made you.
+#add finish button to end the game
+#TODO: put the results page here
+def displayResultsPage():
+    # Hide elements in the current layout
+    #buttonText.pack_forget()
+
+    # Top text label
+    top_text = Label(window, text="Your top meme was: ", font=("Arial", 20))
+    top_text.pack()
+
+    # Display an image (change 'path_to_your_image.png' to the actual image path)
+    img = PhotoImage(file=image_list[1])
+    image_label = Label(window, image=img)
+    image_label.image = img  # Keep a reference to the image to prevent garbage collection
+    image_label.pack()
+
+    # Smaller text under the image
+    bottom_text = Label(window, text="It raised your happiness levels to: " + "drü" + " %", font=("Arial", 12))
+    bottom_text.pack()
+
+    # TODO: Button at the bottom right corner, does not yet work
+    ##close_button = Button(window, text="Close", command=hide_results)
+    #close_button.pack(anchor='se')  # 'se' anchors the button to the bottom right corner
+
+
+
+
+
 
 
 # Bilderquelle verändert sich mit der MemePosition. Auch erstmalige Initalisierung vom Bild durch diese Methode
