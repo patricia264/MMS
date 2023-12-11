@@ -2,6 +2,7 @@ import tkinter
 from pathlib import Path
 import sys
 import tkinter as tk
+import time
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
@@ -104,13 +105,13 @@ def displayResultsPage():
     top_text.pack(pady=50)  # Add padding to the top
 
     # Display an image (change 'path_to_your_image.png' to the actual image path)
-    img = PhotoImage(file=image_list[1])
+    img = PhotoImage(file=image_list[deepfaceTest.bestMeme])
     image_label = Label(window, image=img)
     image_label.image = img  # Keep a reference to the image to prevent garbage collection
     image_label.pack(pady=50)  # Add padding below the image
 
     # Smaller text under the image
-    bottom_text = Label(window, text="It raised your happiness levels to: " + str(MemeDictionary[0]) + " %", font=("Arial", 12))
+    bottom_text = Label(window, text="It raised your happiness levels to: " + str(deepfaceTest.highestScore) + " %", font=("Arial", 12))
     bottom_text.pack(pady=20)  # Add padding above the text
 
     # Center align widgets vertically and horizontally
@@ -179,6 +180,7 @@ button_1 = Button(
     command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition, cap, MemeDictionary)],
     relief="flat"
 )
+
 button_1.place(
     x=741.0,
     y=637.0,
