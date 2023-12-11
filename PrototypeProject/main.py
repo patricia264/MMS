@@ -137,11 +137,13 @@ def set_Image():
 def remove_Image():
     global canvas
     global memeImage
+    global progressbar
 
     # Check if 'image_2' has been set previously
     if 'memeImage' in globals():
         canvas.delete(memeImage)  # Delete the image object from the canvas
         del memeImage  # Remove the reference to the image object
+    progressbar.destroy()
 
 
 canvas = Canvas(
@@ -177,7 +179,7 @@ button_1 = Button(
     borderwidth=0,
     highlightthickness=0,
     #bei Klick führt zuerst Hauptfunktion aus, dann take pic (Hoffnung das delay klappt, tuts ned)
-    command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition, cap, MemeDictionary)],
+    command=lambda: [button_clicked(), deepfaceTest.takePic(MemePosition, cap, MemeDictionary, progressVarInt)],
     relief="flat"
 )
 
@@ -211,11 +213,10 @@ black_title_id = canvas.create_text(
 
 # Var erstellt um Progressbarwert dann zu verändern, damit dynamischer Wert
 progressVarInt = tkinter.IntVar()
+progressVarInt.set(0)
 
 
-# künstliche Zahl als Platzhalter.
-# Braucht noch eine Funktion, die nach dem Analysieren die Progressbar verändert
-progressVarInt.set(30)
+
 
 
 # Prozentanzahl als ProgressBar
@@ -235,7 +236,7 @@ progressbar.place(
 set_Image()
 
 #erstes Mal take Pic da sonst mit Next Funktion verbunden
-deepfaceTest.takePic(MemePosition, cap, MemeDictionary)
+deepfaceTest.takePic(MemePosition, cap, MemeDictionary, progressVarInt)
 
 window.resizable(False, False)
 window.mainloop()

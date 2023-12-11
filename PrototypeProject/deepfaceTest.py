@@ -6,7 +6,7 @@ import threading
 highestScore = 0.01
 bestMeme = 0
 
-def takePic(MemePosition, cap, MemeDictionary):
+def takePic(MemePosition, cap, MemeDictionary, progressVarInt):
 
     def delayed_capture():
         global highestScore
@@ -22,6 +22,7 @@ def takePic(MemePosition, cap, MemeDictionary):
         analyzRes = DeepFace.analyze(f"WebCamShots/{MemePosition}.jpg", actions=['emotion'])
         happyPercent = analyzRes[0]['emotion']['happy']
         MemeDictionary[MemePosition] = happyPercent
+        progressVarInt.set(happyPercent)
 
         if happyPercent > highestScore:
             highestScore = happyPercent
